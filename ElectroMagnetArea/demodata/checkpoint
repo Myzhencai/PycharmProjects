@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/gaofei/PycharmProjects/ElectroMagnetArea/demodata/ckpt"
+all_model_checkpoint_paths: "/home/gaofei/PycharmProjects/ElectroMagnetArea/demodata/ckpt"
