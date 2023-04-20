@@ -2,13 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from keras.datasets import mnist
-from keras.utils import np_utils
-from keras.models import Sequential
-from keras.layers import SimpleRNN, Activation, Dense
-from keras.optimizers import Adam
 import keras
-from sklearn.model_selection import train_test_split
 import cv2
 import serial # 导入串口包
 import time
@@ -55,13 +49,4 @@ while True:
             print("當前在眼周區域")
             cv2.imshow('image', lefteye)
             cv2.waitKey(30)
-
-# input = X_test[0].reshape((1,1,9))
-# result = model.predict(input)
-# pred_y = np.argmax(result, 1)
-#
-# # 保存模型
-# model.save('my_model.h5')
-#
-# print(newmodel.summary())
 

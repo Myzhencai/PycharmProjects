@@ -43,19 +43,6 @@ y = dataSet[:,9:13]
 X_train, X_test, y_train, y_test = train_test_split(x, y,test_size=0.25)
 X_train = X_train.reshape((X_train.shape[0],1,X_train.shape[1]))
 X_test = X_test.reshape((X_test.shape[0],1,X_test.shape[1]))
-
-
-# (X_train, y_train), (X_test, y_test) = mnist.load_data()
-
-# 数据预处理
-# 参数-1表示样例的个数 28*28表示像素长度和宽度
-# X_train = X_train.reshape(-1, 28, 28) / 255  # normalize
-# X_test = X_test.reshape(-1, 28, 28) / 255  # normalize
-
-# 将类向量转化为类矩阵  数字 5 转换为 0 0 0 0 0 1 0 0 0 0 矩阵
-# y_train = np_utils.to_categorical(y_train, num_classes=10)
-# y_test = np_utils.to_categorical(y_test, num_classes=10)
-
 # ---------------------------创建RNN神经网络---------------------------
 # 创建RNN模型
 model = Sequential()

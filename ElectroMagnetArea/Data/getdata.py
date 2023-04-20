@@ -64,7 +64,7 @@ def main(areaid,savetest,Savepath):
 if __name__ == '__main__':
     # 0 對應額頭 ,1 對應下頜,2對應面部,3對應的是眼周,4不在人臉上
     area = 3
-    savepath = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata/"
+    savepath = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata7new/"
     # test = True
     test = False
     main(area,test,savepath)

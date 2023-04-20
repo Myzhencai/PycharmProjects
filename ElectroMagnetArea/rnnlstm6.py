@@ -78,7 +78,8 @@ BasicLSTMCell_NUM = 128
 
 # 加載數據
 # path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/Data/HalfFace7/megedData.txt"
-path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata/megedData.txt"
+# path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata/megedData.txt"
+path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata7new/megedData.txt"
 dataSet = loaddata(path)
 x = dataSet[:,:9]
 y = dataSet[:,9:13]
@@ -142,7 +143,7 @@ sess = tf.Session()
 init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer()) # the local var is for accuracy_op
 sess.run(init_op)     # initialize var in graph
 
-for step in range(80000):    # training
+for step in range(8000):    # training
     # b_x, b_y = mnist.train.next_batch(BATCH_SIZE)
     b_x, b_y = next_batch(BATCH_SIZE)
     # b_x = b_x.reshape([BATCH_SIZE, TIME_STEP, INPUT_SIZE])

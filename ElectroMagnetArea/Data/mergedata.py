@@ -27,5 +27,6 @@ def merge4(filePath):
 
 
 if __name__ =="__main__":
-    filePath ="/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata/"
+    # filePath ="/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata/"
+    filePath ="/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata7new/"
     merge4(filePath)
