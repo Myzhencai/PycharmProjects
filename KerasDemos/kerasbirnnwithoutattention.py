@@ -39,7 +39,7 @@ model = keras.Sequential()
 # 第一個數是訓練數據的最大值
 model.add(keras.layers.Embedding(80000, 18, input_length = 9))
 model.add(keras.layers.SpatialDropout1D(0.4))
-model.add(keras.layers.Bidirectional(keras.layers.LSTM(86, dropout=0.05, recurrent_dropout=0.2)))
+model.add(keras.layers.Bidirectional(keras.layers.LSTM(20, dropout=0.05, recurrent_dropout=0.2)))
 model.add(keras.layers.Dense(4, activation='softmax'))
 
 model.compile(loss = 'categorical_crossentropy', optimizer='adam', metrics = ['accuracy'])
