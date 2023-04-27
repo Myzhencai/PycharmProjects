@@ -7,7 +7,7 @@ from keras.layers import TimeDistributed
 from keras.layers import Bidirectional
 import numpy as np
 from sklearn.model_selection import train_test_split
-from keras.optimizers import Adam
+from keras.optimizers import adam_v2
 import keras
 import cv2
 import serial
@@ -45,7 +45,7 @@ model.add(Bidirectional(LSTM(128, return_sequences=True), input_shape=(TIME_STEP
 model.add(TimeDistributed(Dense(4, activation='sigmoid')))
 
 # ------------------------------確定優化器------------------------------
-adam = Adam(LR)
+adam = adam_v2.Adam(LR)
 model.compile(optimizer=adam,  # 加速神经网络
               loss='categorical_crossentropy',  # 损失函数
               metrics=['accuracy'])  # 计算误差或准确率
