@@ -8,40 +8,30 @@ import serial # 导入串口包
 import time # 导入时间包
 import cv2
 # initializer = tf.truncated_normal_initializer()
+
+# tensorflow 參數初始化過程
 tf.compat.v1.set_random_seed(777)
 tf.compat.v1.disable_eager_execution()
-# reset_graph()
 
 # 加載數據
 def loaddata(filepath):
     all_data = np.loadtxt(filepath)
     return all_data
 
-# tf.set_random_seed(1)
-# tf.set_random_seed()
-# tf.random.set_seed(1)
-# np.random.seed(1)
-
-# Hyper Parameters
+# 超參數設計
 BATCH_SIZE =128
-TIME_STEP = 1          # rnn time step / image height
-INPUT_SIZE = 9         # rnn input size / image width
-LR = 0.01               # learning rate
+TIME_STEP = 1
+INPUT_SIZE = 9
+LR = 0.001
 CLASS_NUM = 4
-BasicLSTMCell_NUM = 128
+BasicLSTMCell_NUM = 60
 
-# data
-# mnist = input_data.read_data_sets('./mnist', one_hot=True)              # they has been normalized to range (0,1)
-# test_x = mnist.test.images[:2000]
-# test_y = mnist.test.labels[:2000]
-# plot one example
-# plt.imshow(mnist.train.images[0].reshape((28, 28)), cmap='gray')
-# plt.title('%i' % np.argmax(mnist.train.labels[0]))
-# plt.show()
+# 輪循抓取數據的參數
+epochs_completed = 0
+index_in_epoch = 0
+num_examples = X_train.shape[0]
 
-# 加載數據
-# path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/Data/HalfFace7/megedData.txt"
-# path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata/megedData.txt"
+# 加載所有數據
 path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata7new/megedData.txt"
 dataSet = loaddata(path)
 x = dataSet[:,:9]
@@ -50,11 +40,7 @@ y = dataSet[:,9:13]
 # 區分訓練集合和驗證集合
 X_train, X_test, y_train, y_test = train_test_split(x, y,test_size=0.25)
 
-
-epochs_completed = 0
-index_in_epoch = 0
-num_examples = X_train.shape[0]
-    # for splitting out batches of data
+# 抓取Batch數據
 def next_batch(batch_size):
     global X_train
     global y_train
@@ -116,6 +102,10 @@ for step in range(8000):    # training
     if step % 50 == 0:      # testing23
         accuracy_ = sess.run(accuracy, {tf_x: X_test, tf_y: y_test})
         print('train loss: %.4f' % loss_, '| test accuracy: %.2f' % accuracy_)
+    # 添加保存數據模塊
+    if step == 7999:
+        saver = tf.compat.v1.train.Saver()
+        saver.save(sess, "/home/gaofei/PycharmProjects/tf2rnnlstm/savemodel")
 
 # print 10 predictions from test data
 # test_output = sess.run(output, {tf_x: X_test})
@@ -137,7 +127,6 @@ for step in range(8000):    # training
 # 實時數據預測結果
 # 加載顯示圖片
 # sourceimg = cv2.imread("/home/gaofei/magx/data/4lv9c8ee.png")
-
 
 # lefteye = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/lefteye.png")
 # leftface = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/leftface.png")
