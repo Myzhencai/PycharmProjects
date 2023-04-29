@@ -26,11 +26,6 @@ LR = 0.001
 CLASS_NUM = 4
 BasicLSTMCell_NUM = 60
 
-# 輪循抓取數據的參數
-epochs_completed = 0
-index_in_epoch = 0
-num_examples = X_train.shape[0]
-
 # 加載所有數據
 path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata7new/megedData.txt"
 dataSet = loaddata(path)
@@ -39,6 +34,11 @@ y = dataSet[:,9:13]
 
 # 區分訓練集合和驗證集合
 X_train, X_test, y_train, y_test = train_test_split(x, y,test_size=0.25)
+
+# 輪循抓取數據的參數
+epochs_completed = 0
+index_in_epoch = 0
+num_examples = X_train.shape[0]
 
 # 抓取Batch數據
 def next_batch(batch_size):
@@ -66,7 +66,7 @@ def next_batch(batch_size):
     end = index_in_epoch
     return X_train[start:end], y_train[start:end]
 
-tf_x = tf.compat.v1.placeholder(tf.float32, [None, TIME_STEP * INPUT_SIZE])  #(128,9)     # shape(batch, 784)
+tf_x = tf.compat.v1.placeholder(tf.float32, [None, TIME_STEP * INPUT_SIZE],name="Input")  #(128,9)     # shape(batch, 784)
 image = tf.compat.v1.reshape(tf_x, [-1, TIME_STEP, INPUT_SIZE])  #(128,1,9)                 # (batch, height, width, channel)
 tf_y = tf.compat.v1.placeholder(tf.int32, [None, CLASS_NUM])   #(128,4)                          # input y
 
@@ -83,6 +83,7 @@ outputs, (h_c, h_n) = tf.compat.v1.nn.dynamic_rnn(
     time_major=False,           # False: (batch, time step, input); True: (time step, batch, input)
 )
 output = tf.compat.v1.layers.dense(outputs[:, -1, :], CLASS_NUM)              # output based on the last output step
+Output = tf.add(output, 0, name='Output')
 
 loss = tf.compat.v1.losses.softmax_cross_entropy(onehot_labels=tf_y, logits=output)           # compute cost
 train_op = tf.compat.v1.train.AdamOptimizer(LR).minimize(loss)
@@ -105,7 +106,10 @@ for step in range(8000):    # training
     # 添加保存數據模塊
     if step == 7999:
         saver = tf.compat.v1.train.Saver()
-        saver.save(sess, "/home/gaofei/PycharmProjects/tf2rnnlstm/savemodel")
+        saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/savemodel/rnnlstmtf2")
+
+
+
 
 # print 10 predictions from test data
 # test_output = sess.run(output, {tf_x: X_test})

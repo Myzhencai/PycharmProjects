@@ -14,9 +14,11 @@ import cv2
 def loaddata(filepath):
     all_data = np.loadtxt(filepath)
     return all_data
-
-tf.set_random_seed(1)
-np.random.seed(1)
+#
+# tf.set_random_seed(1)
+# np.random.seed(1)
+tf.compat.v1.set_random_seed(777)
+tf.compat.v1.disable_eager_execution()
 
 # Hyper Parameters
 BATCH_SIZE =128
@@ -31,10 +33,10 @@ BasicLSTMCell_NUM = 128
 path = "/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata/megedData.txt"
 
 # 實時顯示結果的部分
-lefteye = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/lefteye.png")
-leftface = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/leftface.png")
-lefthead = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/lefthead.png")
-leftjaw = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/leftjaw.png")
+# lefteye = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/lefteye.png")
+# leftface = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/leftface.png")
+# lefthead = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/lefthead.png")
+# leftjaw = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/leftjaw.png")
 
 
 dataSet = loaddata(path)
