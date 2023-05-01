@@ -16,7 +16,7 @@ input_x = sess.graph.get_tensor_by_name('Input:0')
 output = sess.graph.get_tensor_by_name('Output:0')
 
 #加載實時數據
-ser = serial.Serial("/dev/ttyUSB1",256000,timeout = 0.01) # 开启com3口，波特率115200，超时5
+ser = serial.Serial("/dev/ttyUSB0",256000,timeout = 0.01) # 开启com3口，波特率115200，超时5
 ser.flushInput() # 清空缓冲区
 while True:
     currentdata = ser.readline() # 获取串口缓冲区数据

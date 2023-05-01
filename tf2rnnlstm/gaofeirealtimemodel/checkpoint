@@ -1,2 +1,2 @@
-model_checkpoint_path: "/home/gaofei/PycharmProjects/tf2rnnlstm/gaofeirealtimemodel/Matrix"
-all_model_checkpoint_paths: "/home/gaofei/PycharmProjects/tf2rnnlstm/gaofeirealtimemodel/Matrix"
+model_checkpoint_path: "/home/gaofei/PycharmProjects/tf2rnnlstm/gaofeirealtimemodel/Matrixnew"
+all_model_checkpoint_paths: "/home/gaofei/PycharmProjects/tf2rnnlstm/gaofeirealtimemodel/Matrixnew"

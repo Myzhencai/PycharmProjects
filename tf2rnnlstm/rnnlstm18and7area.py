@@ -107,7 +107,7 @@ for step in range(8000):    # training
     if step == 7999:
         saver = tf.compat.v1.train.Saver()
         # saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/rnnlstmtf2for7area/Matrix")
-        saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/gaofeirealtimemodel/Matrix")
+        saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/gaofeirealtimemodel/Matrixnew")
 
 
 
@@ -141,7 +141,7 @@ lefteye = cv2.imread("/home/gaofei/PycharmProjects/tf2rnnlstm/7newarea/lefteye.p
 righteye = cv2.imread("/home/gaofei/PycharmProjects/tf2rnnlstm/7newarea/righteye.png")
 
 #加載實時數據
-ser = serial.Serial("/dev/ttyUSB0",256000,timeout = 0.01) # 开启com3口，波特率115200，超时5
+ser = serial.Serial("/dev/ttyUSB1",256000,timeout = 0.01) # 开启com3口，波特率115200，超时5
 ser.flushInput() # 清空缓冲区
 while True:
     currentdata = ser.readline() # 获取串口缓冲区数据
