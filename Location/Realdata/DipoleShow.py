@@ -7,6 +7,7 @@ from scipy.spatial.transform import Rotation as R
 from pyquaternion import Quaternion
 from mag_utils import DeviceCalibration, compute_sensor, get_field, get_field_new,compute_sensor_new,plot_correlation, get_sensor_pos
 import matplotlib.pyplot as plt
+print("hello")
 
 
 CROSSTALK_MATRIX = False
