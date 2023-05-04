@@ -10,14 +10,12 @@ serleft.flushInput()
 datasaver = []
 while True:
     currentdataleft = serleft.readline()
-    # currentdataright = serringht.readline()
     if currentdataleft !=b'':
-        # starttime= time.time()
-        # 左邊
         currentdataleft = str(currentdataleft, 'UTF-8')
         currentdatalistleft = currentdataleft.split('\n')[0]
         currentdatalistleft = currentdatalistleft.split(",")
         dataarrayleft = np.array(currentdatalistleft, dtype='float16').reshape((-1, 9))
+        datasaver.append(dataarrayleft[0][:9])
         print("dataarrayleft :", dataarrayleft)
     # if  currentdataright !=b'':
     #     currentdataright = str(currentdataright, 'UTF-8')

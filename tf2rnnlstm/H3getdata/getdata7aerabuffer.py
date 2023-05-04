@@ -6,7 +6,7 @@ import numpy as np
 #共享的buffer內存數據
 realtimebuffer = [None,None]
 # 用於保存數據的列表
-datasaver =[]
+datalist =[]
 
 # 獲取左邊臉部數據
 def serialleft():
@@ -41,7 +41,7 @@ def serialrifht():
             realtimebuffer[1] = None
 
 # 從共享內存裏提取數據
-def chosendata():
+def chosendata(areaid,savetest,Savepath):
     chosendataresult = np.zeros((1, 9))
     while True:
         if (realtimebuffer[0] is not None) and (realtimebuffer[1] is not None):
@@ -51,38 +51,114 @@ def chosendata():
             rightsum = abs(realtimebuffer[1][0][0])
             if leftsum > rightsum:
                 chosendataresult = realtimebuffer[0]
-                datasaver.append(chosendataresult[0][:9])
-                print("chose one left")
+                # datalist.append(chosendataresult[0][:9])
+                # print("chose one left")
         #         print(chosendataresult)
             else:
                 chosendataresult = realtimebuffer[1]
-                datasaver.append(chosendataresult[0][:9])
-                print("chose one right")
+                # datalist.append(chosendataresult[0][:9])
+                # print("chose one right")
         #         print(chosendataresult)
         elif (realtimebuffer[0] is None) and (realtimebuffer[1] is not None):
             chosendataresult = realtimebuffer[1]
-            datasaver.append(chosendataresult[0][:9])
-            print("chose 2 right")
+            # datalist.append(chosendataresult[0][:9])
+            # print("chose 2 right")
             # print(chosendataresult)
         elif (realtimebuffer[0] is not None) and (realtimebuffer[1] is None):
             chosendataresult = realtimebuffer[0]
-            datasaver.append(chosendataresult[0][:9])
-            print("chose 2 left")
+            # datalist.append(chosendataresult[0][:9])
+            # print("chose 2 left")
             # print(chosendataresult)
         # 只有有數據才保存
         else:
             continue
-        np.savetxt("./sensordata.txt", np.array(datasaver).reshape((-1, 9)))
-        # print(chosendataresult)
-        # time.sleep(0.033)
-        # time.sleep(0.033)
+        # 根據實際的分區和保存地址保存選擇出來的數據
+        if chosendataresult is not None:
+            if areaid ==0:
+                print("額頭數據")
+                areaarray = np.array([[1,0,0,0,0,0,0]])
+                currentdataAndarea = np.c_[chosendataresult,areaarray]
+                datalist.append(currentdataAndarea[0])
+                dataarray = np.array(datalist,dtype='float32').reshape((-1,16))
+                if savetest:
+                    np.savetxt(Savepath+"area{0}test.txt".format(areaid),dataarray)
+                else:
+                    np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
+            elif areaid ==1:
+                print("對應左下頜")
+                areaarray = np.array([[0, 1, 0, 0, 0, 0, 0]])
+                currentdataAndarea = np.c_[chosendataresult, areaarray]
+                datalist.append(currentdataAndarea[0])
+                dataarray = np.array(datalist, dtype='float32').reshape((-1, 16))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==2:
+                print("對應右下頜")
+                areaarray = np.array([[0, 0, 1, 0, 0, 0, 0]])
+                currentdataAndarea = np.c_[chosendataresult, areaarray]
+                datalist.append(currentdataAndarea[0])
+                dataarray = np.array(datalist, dtype='float32').reshape((-1, 16))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==3:
+                print("左邊臉部")
+                areaarray = np.array([[0, 0, 0, 1, 0, 0, 0]])
+                currentdataAndarea = np.c_[chosendataresult, areaarray]
+                datalist.append(currentdataAndarea[0])
+                dataarray = np.array(datalist, dtype='float32').reshape((-1, 16))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==4:
+                print("對應右邊臉部")
+                areaarray = np.array([[0, 0, 0, 0, 1, 0, 0]])
+                currentdataAndarea = np.c_[chosendataresult, areaarray]
+                datalist.append(currentdataAndarea[0])
+                dataarray = np.array(datalist, dtype='float32').reshape((-1, 16))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==5:
+                print("對應左邊眼周")
+                areaarray = np.array([[0, 0, 0, 0, 0, 1, 0]])
+                currentdataAndarea = np.c_[chosendataresult, areaarray]
+                datalist.append(currentdataAndarea[0])
+                dataarray = np.array(datalist, dtype='float32').reshape((-1, 16))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==6:
+                print("對應右邊臉周")
+                areaarray = np.array([[0, 0, 0, 0, 0, 0, 1]])
+                currentdataAndarea = np.c_[chosendataresult, areaarray]
+                datalist.append(currentdataAndarea[0])
+                dataarray = np.array(datalist, dtype='float32').reshape((-1, 16))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+        # time.sleep(0.001)
+
 
 
 
 if __name__ == '__main__':
+    # 0 對應額頭 ,1 對應左下頜,2對應右下頜,3左邊臉部,4對應右邊臉部,5對應左邊眼周,6對應右邊臉周
+    area = 0
+    # test = True
+    test = False
+    savepath = "./7Areadata/"
+
     left_thread = threading.Thread(target=serialleft)
     right_thread = threading.Thread(target=serialrifht)
-    chosen_thread = threading.Thread(target=chosendata)
+    chosen_thread = threading.Thread(target=chosendata,args=(area,test,savepath,))
 
     # 开启线程
     left_thread.start()
