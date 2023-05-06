@@ -1,147 +1,254 @@
-import numpy as np
-import serial
 import time
+import serial
+import threading
+import numpy as np
 
-# 左邊
-serleft = serial.Serial("/dev/ttyS2",115200,timeout = 0.01)
-serleft.flushInput()
-# 右邊
-serringht = serial.Serial("/dev/ttyS1",115200,timeout = 0.01)
-serringht.flushInput()
-
+# 用於保存數據的列表
 datasaverleft = []
 datasaverright = []
-datalist = []
-def main(areaid,savetest,Savepath):
+
+# 獲取左邊臉部數據
+def serialleft(areaid,savetest,Savepath):
+    serleft = serial.Serial("/dev/ttyS2", 115200, timeout=0.01)
+    serleft.flushInput()
     while True:
-        # 获取左右串口缓冲区数据
         currentdataleft = serleft.readline()
-#        if currentdataleft != b'':
-        # currentdataright = serringht.readline()
-        # 先獲得左右兩邊的數據並確定需要保存哪一個
-        currentdataleft = str(currentdataleft, 'UTF-8')
-        print(currentdataleft, end='')
-        # elif currentdataleft != b'' and currentdataright == b'':
-        #     currentdataleft = str(currentdataleft, 'UTF-8')
-        #     currentdatalistleft = currentdataleft.split('\n')[0]
-        #     currentdatalistleft = currentdatalistleft.split(",")
-        #     dataarrayleft = np.array(currentdatalistleft, dtype='float16').reshape((-1, 9))
-        #     currentdata = dataarrayleft
-        #     print("dataarrayleft :", dataarrayleft)
-        #     print("dataarrayright : no data")
-        #     print("currentdata chosen : left")
-        # elif currentdataleft == b'' and currentdataright != b'':
-        #     currentdataright = str(currentdataright, 'UTF-8')
-        #     currentdatalistright = currentdataright.split('\n')[0]
-        #     currentdatalistright = currentdatalistright.split(",")
-        #     dataarrayright = np.array(currentdatalistright, dtype='float16').reshape((-1, 9))
-        #     currentdata = dataarrayright
-        #     print("dataarrayleft : no data")
-        #     print("dataarrayright :",dataarrayright)
-        #     print("currentdata chosen : right" )
+        if currentdataleft != b'':
+            currentdataleft = str(currentdataleft, 'UTF-8')
+            currentdatasaverleftleft = currentdataleft.split('\r\n')[0]
+            currentdatasaverleftleft = currentdatasaverleftleft.split(",")
+            dataarrayleft = np.array(currentdatasaverleftleft, dtype='float32').reshape((-1, 9))
+            # 可能要枷鎖
+            # datasaverleft.append(dataarrayleft[0][:9])
+            # np.savetxt("./sensordataleft.txt", np.array(datasaverleft).reshape((-1, 9)))
+            # print("dataarrayleft :", dataarrayleft)
+            if areaid ==0:
+                print("左邊額頭數據")
+                areaarray = np.array([[1,0,0,0]])
+                currentdataAndarea = np.c_[dataarrayleft,areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft,dtype='float32').reshape((-1,13))
+                if savetest:
+                    np.savetxt(Savepath+"area{0}test.txt".format(areaid),dataarray)
+                else:
+                    np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
+            elif areaid ==1:
+                print("對應左下頜")
+                areaarray = np.array([[0, 1, 0, 0]])
+                currentdataAndarea = np.c_[dataarrayleft, areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==2:
+                print("對應左邊面部")
+                areaarray = np.array([[0, 0, 1, 0]])
+                currentdataAndarea = np.c_[dataarrayleft, areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==3:
+                print("左邊眼周")
+                areaarray = np.array([[0, 0, 0, 1]])
+                currentdataAndarea = np.c_[dataarrayleft, areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepath + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepath + "area{0}.txt".format(areaid), dataarray)
+        else:
+            print("no data")
 
 
-        # if currentdataright != b'':
-        #     currentdataright = str(currentdataright, 'UTF-8')
-        #     currentdatalistright = currentdataright.split('\n')[0]
-        #     currentdatalistright = currentdatalistright.split(",")
-        #     dataarrayright = np.array(currentdatalistright, dtype='float16').reshape((-1, 9))
-        #     datasaverright.append(dataarrayright[0][:9])
-        #     np.savetxt("./sensordataright.txt", np.array(datasaverright).reshape((-1, 9)))
-        #     print("dataarrayright :", dataarrayright)
-        #
-        #
-        # if currentdata !=b'' and currentdata !=b'\n':
-        #     if areaid ==0:
-        #         print("額頭數據")
-        #         currentdata = str(currentdata, 'UTF-8')
-        #         currentdatalist = currentdata.split('\r\n')[0]
-        #         currentdatalist = currentdatalist.split(",")+[1,0,0,0,0,0,0]
-        #         datalist.append(currentdatalist)
-        #         print(currentdata)
-        #         dataarray = np.array(datalist,dtype='float32').reshape((-1,25))
-        #         if savetest:
-        #             np.savetxt(Savepath+"area{0}test.txt".format(areaid),dataarray)
-        #         else:
-        #             np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
-        #     elif areaid ==1:
-        #         print("對應左下頜")
-        #         currentdata = str(currentdata, 'UTF-8')
-        #         currentdatalist = currentdata.split('\r\n')[0]
-        #         currentdatalist = currentdatalist.split(",")+[0,1,0,0,0,0,0]
-        #         datalist.append(currentdatalist)
-        #         print(currentdata)
-        #         dataarray = np.array(datalist,dtype='float32').reshape((-1,25))
-        #         if savetest:
-        #             np.savetxt(Savepath+"area{0}test.txt".format(areaid), dataarray)
-        #         else:
-        #             np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
-        #     elif areaid ==2:
-        #         print("對應右下頜")
-        #         currentdata = str(currentdata, 'UTF-8')
-        #         currentdatalist = currentdata.split('\r\n')[0]
-        #         currentdatalist = currentdatalist.split(",")+[0,0,1,0,0,0,0]
-        #         datalist.append(currentdatalist)
-        #         print(currentdata)
-        #         dataarray = np.array(datalist,dtype='float32').reshape((-1,25))
-        #         if savetest:
-        #             np.savetxt(Savepath+"area{0}test.txt".format(areaid), dataarray)
-        #         else:
-        #             np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
-        #     elif areaid ==3:
-        #         print("左邊臉部")
-        #         currentdata = str(currentdata, 'UTF-8')
-        #         currentdatalist = currentdata.split('\r\n')[0]
-        #         currentdatalist = currentdatalist.split(",")+[0,0,0,1,0,0,0]
-        #         datalist.append(currentdatalist)
-        #         print(currentdata)
-        #         dataarray = np.array(datalist,dtype='float32').reshape((-1,25))
-        #         if savetest:
-        #             np.savetxt(Savepath+"area{0}test.txt".format(areaid), dataarray)
-        #         else:
-        #             np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
-        #     elif areaid ==4:
-        #         print("對應右邊臉部")
-        #         currentdata = str(currentdata, 'UTF-8')
-        #         currentdatalist = currentdata.split('\r\n')[0]
-        #         currentdatalist = currentdatalist.split(",")+[0,0,0,0,1,0,0]
-        #         datalist.append(currentdatalist)
-        #         print(currentdata)
-        #         dataarray = np.array(datalist,dtype='float32').reshape((-1,25))
-        #         if savetest:
-        #             np.savetxt(Savepath+"area{0}test.txt".format(areaid), dataarray)
-        #         else:
-        #             np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
-        #     elif areaid ==5:
-        #         print("對應左邊眼周")
-        #         currentdata = str(currentdata, 'UTF-8')
-        #         currentdatalist = currentdata.split('\r\n')[0]
-        #         currentdatalist = currentdatalist.split(",")+[0,0,0,0,0,1,0]
-        #         datalist.append(currentdatalist)
-        #         print(currentdata)
-        #         dataarray = np.array(datalist,dtype='float32').reshape((-1,25))
-        #         if savetest:
-        #             np.savetxt(Savepath+"area{0}test.txt".format(areaid), dataarray)
-        #         else:
-        #             np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
-        #     elif areaid ==6:
-        #         print("對應右邊臉周")
-        #         currentdata = str(currentdata, 'UTF-8')
-        #         currentdatalist = currentdata.split('\r\n')[0]
-        #         currentdatalist = currentdatalist.split(",")+[0,0,0,0,0,0,1]
-        #         datalist.append(currentdatalist)
-        #         print(currentdata)
-        #         dataarray = np.array(datalist,dtype='float32').reshape((-1,25))
-        #         if savetest:
-        #             np.savetxt(Savepath+"area{0}test.txt".format(areaid), dataarray)
-        #         else:
-        #             np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
-        # time.sleep(0.0) # 延时0.1秒，免得CPU出问题
+
+# 獲取右邊臉部數據
+def serialrifht(areaid,savetest,Savepath):
+    serringht = serial.Serial("/dev/ttyS1", 115200, timeout=0.01)
+    serringht.flushInput()
+    while True:
+        currentdataright = serringht.readline()
+        if currentdataright != b'':
+            currentdataright = str(currentdataright, 'UTF-8')
+            currentdatasaverleftright = currentdataright.split('\r\n')[0]
+            currentdatasaverleftright = currentdatasaverleftright.split(",")
+            dataarrayright = np.array(currentdatasaverleftright, dtype='float32').reshape((-1, 9))
+            # datasaverright.append(dataarrayright[0][:9])
+            # np.savetxt("./sensordataright.txt", np.array(datasaverright).reshape((-1, 9)))
+            # print("dataarrayright :", dataarrayright)
+            if areaid ==0:
+                print("右邊額頭數據")
+                areaarray = np.array([[1,0,0,0]])
+                currentdataAndarea = np.c_[dataarrayright,areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright,dtype='float32').reshape((-1,13))
+                if savetest:
+                    np.savetxt(Savepath+"area{0}test.txt".format(areaid),dataarray)
+                else:
+                    np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
+
+            if areaid ==1:
+                print("對應右邊下頜")
+                areaarray = np.array([[0,1,0,0]])
+                currentdataAndarea = np.c_[dataarrayright,areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright,dtype='float32').reshape((-1,13))
+                if savetest:
+                    np.savetxt(Savepath+"area{0}test.txt".format(areaid),dataarray)
+                else:
+                    np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
+
+            if areaid ==2:
+                print("右邊面部數據")
+                areaarray = np.array([[0,0,1,0]])
+                currentdataAndarea = np.c_[dataarrayright,areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright,dtype='float32').reshape((-1,13))
+                if savetest:
+                    np.savetxt(Savepath+"area{0}test.txt".format(areaid),dataarray)
+                else:
+                    np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
+
+            if areaid ==3:
+                print("右邊眼周")
+                areaarray = np.array([[0,0,0,1]])
+                currentdataAndarea = np.c_[dataarrayright,areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright,dtype='float32').reshape((-1,13))
+                if savetest:
+                    np.savetxt(Savepath+"area{0}test.txt".format(areaid),dataarray)
+                else:
+                    np.savetxt(Savepath+"area{0}.txt".format(areaid), dataarray)
+
+
+def seriaall(areaid,savetest,Savepathleft,Savepathright):
+    serleft = serial.Serial("/dev/ttyS2", 115200, timeout=0.01)
+    serleft.flushInput()
+    serringht = serial.Serial("/dev/ttyS1", 115200, timeout=0.01)
+    serringht.flushInput()
+    while True:
+        currentdataleft = serleft.readline()
+        # 右邊
+        currentdataright = serringht.readline()
+        if currentdataleft != b'':
+            currentdataleft = str(currentdataleft, 'UTF-8')
+            currentdatasaverleftleft = currentdataleft.split('\r\n')[0]
+            currentdatasaverleftleft = currentdatasaverleftleft.split(",")
+            dataarrayleft = np.array(currentdatasaverleftleft, dtype='float32').reshape((-1, 9))
+            # 可能要枷鎖
+            # datasaverleft.append(dataarrayleft[0][:9])
+            # np.savetxt("./sensordataleft.txt", np.array(datasaverleft).reshape((-1, 9)))
+            # print("dataarrayleft :", dataarrayleft)
+            if areaid ==0:
+                print("左邊額頭數據")
+                areaarray = np.array([[1,0,0,0]])
+                currentdataAndarea = np.c_[dataarrayleft,areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft,dtype='float32').reshape((-1,13))
+                if savetest:
+                    np.savetxt(Savepathleft+"area{0}test.txt".format(areaid),dataarray)
+                else:
+                    np.savetxt(Savepathleft+"area{0}.txt".format(areaid), dataarray)
+            elif areaid ==1:
+                print("對應左下頜")
+                areaarray = np.array([[0, 1, 0, 0]])
+                currentdataAndarea = np.c_[dataarrayleft, areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepathleft + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepathleft + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==2:
+                print("對應左邊面部")
+                areaarray = np.array([[0, 0, 1, 0]])
+                currentdataAndarea = np.c_[dataarrayleft, areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepathleft + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepathleft + "area{0}.txt".format(areaid), dataarray)
+            elif areaid ==3:
+                print("左邊眼周")
+                areaarray = np.array([[0, 0, 0, 1]])
+                currentdataAndarea = np.c_[dataarrayleft, areaarray]
+                datasaverleft.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverleft, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepathleft + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepathleft + "area{0}.txt".format(areaid), dataarray)
+
+        # 右邊
+        if currentdataright != b'':
+            currentdataright = str(currentdataright, 'UTF-8')
+            currentdatasaverleftright = currentdataright.split('\r\n')[0]
+            currentdatasaverleftright = currentdatasaverleftright.split(",")
+            dataarrayright = np.array(currentdatasaverleftright, dtype='float32').reshape((-1, 9))
+            # datasaverright.append(dataarrayright[0][:9])
+            # np.savetxt("./sensordataright.txt", np.array(datasaverright).reshape((-1, 9)))
+            # print("dataarrayright :", dataarrayright)
+            if areaid == 0:
+                print("右邊額頭數據")
+                areaarray = np.array([[1, 0, 0, 0]])
+                currentdataAndarea = np.c_[dataarrayright, areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepathright + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepathright + "area{0}.txt".format(areaid), dataarray)
+
+            if areaid == 1:
+                print("對應右邊下頜")
+                areaarray = np.array([[0, 1, 0, 0]])
+                currentdataAndarea = np.c_[dataarrayright, areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepathright + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepathright + "area{0}.txt".format(areaid), dataarray)
+
+            if areaid == 2:
+                print("右邊面部數據")
+                areaarray = np.array([[0, 0, 1, 0]])
+                currentdataAndarea = np.c_[dataarrayright, areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepathright + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepathright + "area{0}.txt".format(areaid), dataarray)
+
+            if areaid == 3:
+                print("右邊眼周")
+                areaarray = np.array([[0, 0, 0, 1]])
+                currentdataAndarea = np.c_[dataarrayright, areaarray]
+                datasaverright.append(currentdataAndarea[0])
+                dataarray = np.array(datasaverright, dtype='float32').reshape((-1, 13))
+                if savetest:
+                    np.savetxt(Savepathright + "area{0}test.txt".format(areaid), dataarray)
+                else:
+                    np.savetxt(Savepathright + "area{0}.txt".format(areaid), dataarray)
 
 if __name__ == '__main__':
     # 0 對應額頭 ,1 對應左下頜,2對應右下頜,3左邊臉部,4對應右邊臉部,5對應左邊眼周,6對應右邊臉周
-    area = 6
-    savepath = "/home/gaofei/PycharmProjects/ElectroMagnetArea/soarrealtimedatafortrain/"
+    area = 0
     # test = True
     test = False
-    main(area,test,savepath)
+    leftsavepath = "./left/"
+    rithtsavepath = "./right/"
+
+    serialleft(area, test, leftsavepath)
+
+
+    # 开启线程
+    # all_thread.start()
+    # right_thread.start()
