@@ -5,13 +5,13 @@ Created on Fri Feb 23 18:43:06 2020
 @author: xiuzhang Eastmount CSDN
 Wuhan fighting!
 """
-import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import SimpleRNN, Activation, Dense
-from tensorflow.keras.optimizers import Adam
+# import numpy as np
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import SimpleRNN, Activation, Dense
+# from tensorflow.keras.optimizers import Adam
 import tensorflow.keras as keras
-from sklearn.model_selection import train_test_split
-import cv2
+# from sklearn.model_selection import train_test_split
+# import cv2
 # import serial # 导入串口包
 # import time
 #

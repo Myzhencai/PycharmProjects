@@ -73,6 +73,10 @@ for step in range(10000):
             batch_size=y_test.shape[0],
             verbose=1)
         print('test cost: ', cost, 'test accuracy: ', accuracy)
+    # if step == 999:
+    #     saver = tf.compat.v1.train.Saver()
+    #     # saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/rnnlstmtf2for7area/Matrix")
+    #     saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/H3getdata/H3leftfaceDemo/singelleftnew/Matrixleft")
 
 
 # lefteye = cv2.imread("/home/gaofei/PycharmProjects/ElectroMagnetArea/fivearea/data/newarea/lefteye.png")

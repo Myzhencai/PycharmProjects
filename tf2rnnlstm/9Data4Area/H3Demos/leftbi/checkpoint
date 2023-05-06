@@ -1,2 +1,2 @@
-model_checkpoint_path: "/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/modelresult/leftbi/Matrixleftbi"
-all_model_checkpoint_paths: "/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/modelresult/leftbi/Matrixleftbi"
+model_checkpoint_path: "/home/rer/H3Demos/leftbi/Matrixleftbi"
+all_model_checkpoint_paths: "/home/rer/H3Demos/leftbi/Matrixleftbi"

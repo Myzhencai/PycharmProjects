@@ -9,7 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/mobilenet/model" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mobilenet/model/layers" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="tf2rnnlstm" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="rnnlstm (5)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

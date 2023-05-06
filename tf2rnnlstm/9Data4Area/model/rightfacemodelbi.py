@@ -19,7 +19,7 @@ CLASS_NUM = 4
 BasicLSTMCell_NUM = 128
 
 # 加載所有數據
-path = "/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/data/leftbi/megedData.txt"
+path = "/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/data/rightbi/megedData.txt"
 dataSet = loaddata(path)
 x = dataSet[:,:18]
 y = dataSet[:,18:22]
@@ -99,7 +99,7 @@ for step in range(8000):    # training
     if step == 7999:
         saver = tf.compat.v1.train.Saver()
         # saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/rnnlstmtf2for7area/Matrix")
-        saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/modelresult/leftbi/Matrixleftbi")
+        saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/modelresult/rightbi/Matrixrightbi")
 
 
 

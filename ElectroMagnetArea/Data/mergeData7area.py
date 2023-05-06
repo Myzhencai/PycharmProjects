@@ -18,6 +18,7 @@ def merge4(filePath):
     area2 = np.loadtxt(filePath+"area2.txt")
     area3 = np.loadtxt(filePath+"area3.txt")
 
+
     mergeddata = np.r_[area0, area1]
     mergeddata = np.r_[mergeddata, area2]
     mergeddata = np.r_[mergeddata, area3]

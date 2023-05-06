@@ -1,15 +1,7 @@
 import tensorflow as tf
-import numpy as np
-# import tensorflow.compat.v1 as tf
 from sklearn.model_selection import train_test_split
 import numpy as np
-# tf.compat.v1.disable_eager_execution()
-import serial # 导入串口包
-import time # 导入时间包
-import cv2
-# initializer = tf.truncated_normal_initializer()
 
-# tensorflow 參數初始化過程
 tf.compat.v1.set_random_seed(777)
 tf.compat.v1.disable_eager_execution()
 
@@ -23,14 +15,14 @@ BATCH_SIZE =128
 TIME_STEP = 1
 INPUT_SIZE = 9
 LR = 0.001
-CLASS_NUM = 7
+CLASS_NUM = 4
 BasicLSTMCell_NUM = 128
 
 # 加載所有數據
-path = "/home/gaofei/PycharmProjects/tf2rnnlstm/H3getdata/datanew/newleft/megedData.txt"
+path = "/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/data/left/megedData.txt"
 dataSet = loaddata(path)
 x = dataSet[:,:9]
-y = dataSet[:,9:16]
+y = dataSet[:,9:13]
 
 # 區分訓練集合和驗證集合
 X_train, X_test, y_train, y_test = train_test_split(x, y,test_size=0.25)
@@ -95,7 +87,7 @@ sess = tf.compat.v1.Session()
 init_op = tf.compat.v1.group(tf.compat.v1.global_variables_initializer(), tf.compat.v1.local_variables_initializer()) # the local var is for accuracy_op
 sess.run(init_op)     # initialize var in graph
 
-for step in range(80000):    # training
+for step in range(8000):    # training
     # b_x, b_y = mnist.train.next_batch(BATCH_SIZE)
     b_x, b_y = next_batch(BATCH_SIZE)
     # b_x = b_x.reshape([BATCH_SIZE, TIME_STEP, INPUT_SIZE])
@@ -104,10 +96,10 @@ for step in range(80000):    # training
         accuracy_ = sess.run(accuracy, {tf_x: X_test, tf_y: y_test})
         print('train loss: %.4f' % loss_, '| test accuracy: %.2f' % accuracy_)
     # 添加保存數據模塊
-    if step == 79999:
+    if step == 7999:
         saver = tf.compat.v1.train.Saver()
         # saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/rnnlstmtf2for7area/Matrix")
-        saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/H3getdata/H3leftfaceDemo/singelleftnew/Matrixleft")
+        saver.save(sess, save_path="/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/modelresult/Matrixleft")
 
 
 
