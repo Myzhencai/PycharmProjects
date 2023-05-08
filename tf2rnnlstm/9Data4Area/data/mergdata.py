@@ -50,5 +50,6 @@ if __name__ =="__main__":
     # filePath ="/home/gaofei/PycharmProjects/ElectroMagnetArea/SoarFacedata7new/"
     # filePath ="/home/gaofei/PycharmProjects/tf2rnnlstm/DatafromH3/7Areadata/"
     # filePath ="/home/gaofei/PycharmProjects/tf2rnnlstm/H3getdata/data/left/"
-    filePath ="/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/data/rightbi/"
+    # filePath ="/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/data/rightbi/"
+    filePath ="/home/gaofei/PycharmProjects/tf2rnnlstm/9Data4Area/data/Soarrightbi/"
     merge4(filePath)

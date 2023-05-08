@@ -9,7 +9,7 @@ datasaverright = []
 
 # 獲取左邊臉部數據
 def serialleft(areaid,savetest,Savepath):
-    serleft = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.01)
+    serleft = serial.Serial("/dev/ttyUSB1", 115200, timeout=0.01)
     serleft.flushInput()
     while True:
         currentdataleft = serleft.readline()
@@ -77,7 +77,7 @@ def serialleft(areaid,savetest,Savepath):
 
 # 獲取右邊臉部數據
 def serialrifht(areaid,savetest,Savepath):
-    serringht = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.01)
+    serringht = serial.Serial("/dev/ttyUSB1", 115200, timeout=0.01)
     serringht.flushInput()
     while True:
         currentdataright = serringht.readline()
@@ -146,12 +146,11 @@ if __name__ == '__main__':
     # 0 對應額頭 ,1 對應左下頜,2對應右下頜,3左邊臉部,4對應右邊臉部,5對應左邊眼周,6對應右邊臉周
     area = 3
     test = False
-    leftsavepath = "./leftbi/"
-    rithtsavepath = "./rightbi/"
+    leftsavepath = "./Soarleftbi/"
+    rithtsavepath = "./Soarrightbi/"
 
     # serialleft(area, test, leftsavepath)
     serialrifht(area, test, rithtsavepath)
-
 
     # 开启线程
     # all_thread.start()
