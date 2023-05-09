@@ -1,10 +1,13 @@
 import socket
+import tqdm
 
 flag = True
 # 生成socket对象
 server = socket.socket()
 # 绑定ip和端口
+# server.close()
 server.bind(('172.16.2.55', 6666))
+# server.close()
 # 监听绑定的端口
 server.listen()
 # 方便识别打印一个我在等待
@@ -17,7 +20,7 @@ conn, addr = server.accept()
 print('成功鏈接Matrix')
 
 # 进入循环
-while flag:
+while True:
     # 打開左邊
     openleft = input("請問打開左邊的串口進行數據收集麼？（yes or no）:").strip()
     if openleft =='yes':
@@ -27,10 +30,45 @@ while flag:
             openedleft = conn.recv(1024).decode()
             if openedleft == 'openedleft':
                 print("left serial opened ")
-                break
-            print("手機左邊的數據")
+                # 發送關閉左邊串口的信號
+                print("收集左邊的數據")
+                for i in range(100):
+                    print("left",i)
+                conn.send('closeleft'.encode())
 
-    data = conn.recv(1024).decode()
+                while True:
+                    closedleft = conn.recv(1024).decode()
+                    if closedleft == 'closedleft':
+                        print("left serial closed ")
+                        break
+                break
+    elif openleft =='no':
+        openright = input("請問打開右邊的串口進行數據收集麼？（yes or no）:").strip()
+        if openright == 'yes':
+            # 發送信號打開左邊串口並監聽是否打開
+            conn.send('openright'.encode())
+            while True:
+                openedlright = conn.recv(1024).decode()
+                if openedlright == 'openedright':
+                    print("right serial opened ")
+                    print("收集右邊的數據")
+                    # 關閉右邊的串口
+                    for i in range(100):
+                        print("right",i)
+                    conn.send('closeright'.encode())
+
+                    while True:
+                        closedright = conn.recv(1024).decode()
+                        if closedright == 'closedright':
+                            print("right serial closed ")
+                            break
+                    break
+        elif openright == 'no':
+            print("do not open left and right")
+            conn.send('closeall'.encode())
+            server.close()
+
+    # data = conn.recv(1024).decode()
 
     # 判断
     # if data != 'q':
@@ -43,4 +81,3 @@ while flag:
     #     flag = False
 
 # 关闭socket链接
-server.close()

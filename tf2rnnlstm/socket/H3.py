@@ -33,31 +33,27 @@ ipaddress = input("請輸入電腦網絡的ip地址：")
 client.connect((ipaddress, 6666))
 # while循环
 while flag:
-    # 根據接受到的指令來進行對應串口數據的讀取
-    # 打開ttyS2串口
-    msg = input("Enter your message('q' for quit):").strip()
-    msg = '請問需要打開左邊串口麼？（yes or no）'
+    commandfromPC = client.recv(1024).decode()
+    if commandfromPC == 'openleft':
+        print("opened left serial ")
+        client.send('openedleft'.encode())
 
-    # 判断是否为空
-    if len(msg) == 0:
-        print("Message can't be empty")
-        continue
+    elif commandfromPC == 'openright':
+        print("open right serial ")
+        client.send('openedright'.encode())
 
-    # 发送数据
-    client.send(msg.encode())
+    elif commandfromPC == 'closeleft':
+        print("close left serial ")
+        client.send('closedleft'.encode())
 
-    # 判断是否为'q'
-    if msg != 'q':
-
-        # 接收数据
-        data = client.recv(1024)
-
-        # 打印接收到的数据
-        print(data)
-
-    else:
-        # 条件为False
+    elif commandfromPC == 'closeright':
+        print("close right serial ")
+        client.send('closedright'.encode())
+    elif commandfromPC == 'closeall':
+        print("close socket")
         flag = False
+    else:
+        print("等待PC端指令")
 
 # 关闭socket链接
 client.close()
