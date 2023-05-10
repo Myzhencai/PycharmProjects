@@ -171,24 +171,24 @@ while True:
                         while input("請將美容儀器開機放置在額頭區域（左），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("左邊額頭數據")
-                        finishedid = getleftdata(areaid,False, "./data", enoughNum)
+                        finishedid = getleftdata(areaid,False, "./data/leftdata/", enoughNum)
                         # print(finishedid)
                     if areaid == 1 and finishedid == 0:
                         while input("請將美容儀器開機放置在下頜線區域（左），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("對應左下頜")
-                        finishedid = getleftdata(areaid,False, "./data", enoughNum)
+                        finishedid = getleftdata(areaid,False, "./data/leftdata/", enoughNum)
                         # print(finishedid)
                     if areaid == 2 and finishedid == 1:
                         while input("請將美容儀器開機放置在臉部區域（左），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("對應左邊面部")
-                        finishedid = getleftdata(areaid,False, "./data", enoughNum)
+                        finishedid = getleftdata(areaid,False, "./data/leftdata/", enoughNum)
                     if areaid == 3 and finishedid == 2:
                         while input("請將美容儀器開機放置在眼周區域（左），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("左邊眼周")
-                        finishedid = getleftdata(areaid,False, "./data", enoughNum)
+                        finishedid = getleftdata(areaid,False, "./data/leftdata/", enoughNum)
                     if finishedid == 3:
                         print("完成左邊臉部的數據採集")
                 conn.send('finishleft'.encode())
@@ -213,24 +213,24 @@ while True:
                         while input("請將美容儀器開機放置在額頭區域（右），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("右邊額頭數據")
-                        finishedid = getrightdata(areaid,False, "./data", enoughNum)
+                        finishedid = getrightdata(areaid,False, "./data/rightdata/", enoughNum)
                         # print(finishedid)
                     if areaid == 1 and finishedid == 0:
                         while input("請將美容儀器開機放置在下頜線區域（右），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("對應右下頜")
-                        finishedid = getrightdata(areaid,False, "./data", enoughNum)
+                        finishedid = getrightdata(areaid,False, "./data/rightdata/", enoughNum)
                         # print(finishedid)
                     if areaid == 2 and finishedid == 1:
                         while input("請將美容儀器開機放置在臉部區域（右），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("對應右邊面部")
-                        finishedid = getrightdata(areaid,False, "./data", enoughNum)
+                        finishedid = getrightdata(areaid,False, "./data/rightdata/", enoughNum)
                     if areaid == 3 and finishedid == 2:
                         while input("請將美容儀器開機放置在眼周區域（右），完成後請按Enter鍵 :") != '':
                             print("重新輸入")
                         print("右邊眼周")
-                        finishedid = getrightdata(areaid,False, "./data", enoughNum)
+                        finishedid = getrightdata(areaid,False, "./data/rightdata/", enoughNum)
                     if finishedid == 3:
                         print("完成右邊臉部的數據採集")
                 conn.send('finishright'.encode())
@@ -243,6 +243,12 @@ while True:
         print("錯誤的輸入，請稍後重新輸入")
 
     if openright == 'no' and openleft =='no':
+        conn.send('closeall'.encode())
+        server.shutdown(2)
+        server.close()
+        break
+    if openright == 'yes' and openleft =='yes':
+        print("完成了左右面部數據採集關閉程序")
         conn.send('closeall'.encode())
         server.shutdown(2)
         server.close()
