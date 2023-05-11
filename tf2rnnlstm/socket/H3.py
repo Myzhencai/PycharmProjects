@@ -37,23 +37,7 @@ def rightserial():
         if currentdataright != b'':
             serwriteleft.write(currentdataright)
 
-# def controlflow():
-#     global openleft
-#     global openright
-#     clientcontrol = socket.socket()
-#     clientcontrol.connect(("172.16.2.55", 9987))
-#     print("connect2 ")
-#     while True:
-#         flowComand = clientcontrol.recv(1024).decode()
-#         print(flowComand)
-#         if flowComand == "closeleft":
-#             openleft = False
-#         if flowComand == "closeright":
-#             openright = False
-#
-# flowcontrol = threading.Thread(target=controlflow,name='LoopThread')
-# flowcontrol.start()
-# while循环
+
 while flag:
     commandfromPC = client.recv(1024).decode()
     if commandfromPC == 'openleft':
