@@ -135,19 +135,19 @@ def getrightdata(areaid,savetest,Savepath,dataenoughnum):
 
 flag = True
 
-# 生成socket对象
-server = socket.socket()
-
-# 绑定ip和端口
-server.bind(('172.16.2.55', 6868))
-
-# 监听绑定的端口
-server.listen()
-
-# 方便识别打印一个我在等待
-print("等待Matrix鏈接...")
-
-conn, addr = server.accept()
+# # 生成socket对象
+# server = socket.socket()
+#
+# # 绑定ip和端口
+# server.bind(('172.16.2.55', 6868))
+#
+# # 监听绑定的端口
+# server.listen()
+#
+# # 方便识别打印一个我在等待
+# print("等待Matrix鏈接...")
+#
+# conn, addr = server.accept()
 
 print('成功鏈接Matrix')
 finishleft = False
