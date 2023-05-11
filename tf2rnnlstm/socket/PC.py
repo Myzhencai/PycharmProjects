@@ -1,6 +1,15 @@
 import socket
 import numpy as np
 
+# host_name=socket.gethostname()
+#
+# host=socket.gethostbyname(host_name + ".local")
+
+# IPAddr = socket.gethostbyname(socket.getfqdn())
+
+# print(host)
+
+
 datasaverleft = []
 datasaverright = []
 def getleftdata(areaid,savetest,Savepath,dataenoughnum):
@@ -11,6 +20,7 @@ def getleftdata(areaid,savetest,Savepath,dataenoughnum):
         # 返回信息已經接到了數據
         conn.send('leftdata'.encode())
         currentdataleft = conn.makefile().readline()
+
         # 處理數據
         currentdatasaverleftleftold = currentdataleft.split('\n')[0]
         currentdatasaverleftleft = currentdatasaverleftleftold.split(",")
@@ -75,6 +85,7 @@ def getrightdata(areaid,savetest,Savepath,dataenoughnum):
         conn.send('rightdata'.encode())
         currentdataleft = conn.makefile().readline()
         # 返回信息已經接到了數據
+
         # 處理數據
         currentdatasaverleftleftold = currentdataleft.split('\n')[0]
         currentdatasaverleftleft = currentdatasaverleftleftold.split(",")
@@ -135,19 +146,19 @@ def getrightdata(areaid,savetest,Savepath,dataenoughnum):
 
 flag = True
 
-# # 生成socket对象
-# server = socket.socket()
-#
-# # 绑定ip和端口
-# server.bind(('172.16.2.55', 6868))
-#
-# # 监听绑定的端口
-# server.listen()
-#
-# # 方便识别打印一个我在等待
-# print("等待Matrix鏈接...")
-#
-# conn, addr = server.accept()
+# 生成socket对象
+server = socket.socket()
+
+# 绑定ip和端口
+server.bind(('172.16.2.55', 6868))
+
+# 监听绑定的端口
+server.listen()
+
+# 方便识别打印一个我在等待
+print("等待Matrix鏈接...")
+
+conn, addr = server.accept()
 
 print('成功鏈接Matrix')
 finishleft = False
@@ -193,8 +204,7 @@ while True:
                         if finishedid == 3:
                             print("完成左邊臉部的數據採集")
                     conn.send('finishleft'.encode())
-                    closedleft= conn.recv(1024).decode()
-                    # print(closedleft)
+                    closedleft = conn.recv(1024).decode()
                     if closedleft == "closedleft":
                         finishleft = True
                         # 退出循環

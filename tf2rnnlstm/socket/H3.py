@@ -8,49 +8,18 @@ import numpy as np
 flag = True
 
 # 生成socket对象
-server = socket.socket()
-
-# 绑定ip和端口
-server.bind(('172.16.2.55', 6868))
-
-# 监听绑定的端口
-server.listen()
-
-# 方便识别打印一个我在等待
-print("等待Matrix鏈接...")
-
-conn, addr = server.accept()
-
-# 生成socket对象
 client = socket.socket()
 clientcontrol = socket.socket()
-# ipaddress = input("請輸入電腦網絡的ip地址：")
-ipaddress = '172.16.2.55'
+ipaddress = input("請輸入電腦網絡的ip地址（更具命令行得到的結果）：")
+# ipaddress = '172.16.2.55'
 # 链接要链接的ip和port（端口）
 client.connect((ipaddress, 6868))
 print("connect1")
 openleft = True
 openright = True
 
-def leftserial(client):
-    serleft = serial.Serial("/dev/ttyS2", 115200, timeout=0.01)
-    # serwriteleft = serial.Serial("/dev/ttyS0", 115200, timeout=0.01)
-    serleft.flushInput()
-    # serwriteleft.flushInput()
-    while True:
-        currentdataleft = serleft.readline()
-        if currentdataleft != b'':
-            client.send(currentdataleft)
 
-def rightserial():
-    serright = serial.Serial("/dev/ttyS2", 115200, timeout=0.01)
-    serwriteleft = serial.Serial("/dev/ttyS0", 115200, timeout=0.01)
-    serwriteleft.flushInput()
-    serright.flushInput()
-    while True:
-        currentdataright = serright.readline()
-        if currentdataright != b'':
-            serwriteleft.write(currentdataright)
+
 
 
 while flag:
