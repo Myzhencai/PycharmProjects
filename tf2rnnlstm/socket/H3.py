@@ -65,15 +65,16 @@ while flag:
             currentdataleft = serleft.readline()
             if currentdataleft != b'':
                 # print("left :",currentdataleft)
-                client.send(currentdataleft)
                 leftstatue = client.recv(1024).decode()
                 if leftstatue ==  'leftdata':
+                    client.send(currentdataleft)
                     print("在抓取左邊Sensor數據 ")
                 if leftstatue ==  'finishleft':
                     print("完成左邊數據的抓取")
                     openleft = False
         print("關掉左邊的串口")
         serleft.close()
+        client.send('closedleft'.encode())
 
     elif commandfromPC == 'openright':
         print("打開右邊串口")
@@ -84,12 +85,13 @@ while flag:
             currentdataright = serright.readline()
             if currentdataright != b'':
                 # print("left :",currentdataleft)
-                client.send(currentdataright)
                 rightstatue = client.recv(1024).decode()
                 if rightstatue == 'rightdata':
+                    client.send(currentdataright)
                     print("在抓取右邊Sensor數據 ")
                 if rightstatue == 'finishright':
                     print("完成右邊數據的抓取")
+                    client.send('closedright'.encode())
                     openright = False
         print("關掉右邊的串口")
         serright.close()
