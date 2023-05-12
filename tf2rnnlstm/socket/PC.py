@@ -20,6 +20,7 @@ def getleftdata(areaid,savetest,Savepath,dataenoughnum):
         # 返回信息已經接到了數據
         conn.send('leftdata'.encode())
         currentdataleft = conn.makefile().readline()
+        print("current data ", currentdataleft)
 
         # 處理數據
         currentdatasaverleftleftold = currentdataleft.split('\n')[0]
@@ -163,7 +164,7 @@ conn, addr = server.accept()
 print('成功鏈接Matrix')
 finishleft = False
 finishright = False
-enoughNum = 30
+enoughNum = 3000
 arealist =[0,1,2,3]
 
 # 进入循环
